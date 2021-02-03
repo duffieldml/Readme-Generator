@@ -44,8 +44,8 @@ const questions = [
     },
     {
     type: "input",
-    name: "contributors",
-    message: "List all contributors' github name. Please seperate multiple entries by commas.",
+    name: "contributing",
+    message: "Who is contributing? List all contributors' github name. Please seperate multiple entries by commas.",
     },
     {
     type: "input",
@@ -54,13 +54,65 @@ const questions = [
     },
 ];
 
-console.log(questions);
-
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(data) {
+    console.log(data);
+    //Takes contributors and splits them
+    let gitCont = data.contributing.split(',');
+    let gitUser = [];
+    gitCont.map(user => gitUser.push(user.trim()));
+    let gitStr = '';
+    gitUser.map(user => {
+        gitStr += `[${user}]('https://github.com/${user}') \n`
+    })
+    
+    let content = '';
+
+    console.log(content);
+    console.log(gitCont);
+
+    //Code to take input info and put it in the template readme
+    const generateRead = (data) =>
+    `
+    # ${data.title}
+    ${data.license}
+
+    ## Description
+
+    ${data.description}
+
+    ## Table of Contents
+
+    ${content}
+
+    ## Installation
+    To install dependencies, run the following command(s):
+
+    ${data.instructions}
+
+    ## Usage
+
+    ${data.usage}
+
+    ## License
+
+    This project uses the ${data.license} license.
+
+    ## Contributing
+
+    ${gitStr}
+    `
+
+
+}
 
 // TODO: Create a function to initialize app
-function init() {}
-
+function init() {
+    inquirer
+        .prompt(questions)
+        .then((data) => {
+            console.log(data);
+        })
+}
 // Function call to initialize app
 init();
