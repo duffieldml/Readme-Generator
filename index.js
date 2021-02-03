@@ -12,6 +12,11 @@ const questions = [
     },
     {
     type: "input",
+    name: "email",
+    message: "What is your email address?",
+    },
+    {
+    type: "input",
     name: "title",
     message: "What is the name of your project?",
     },
@@ -24,7 +29,7 @@ const questions = [
     type: "checkbox",
     name: "contents",
     message: "Please select all what contents you want in your readme",
-    choices: ['Installation', 'Usage', 'License', 'Contributors', 'Tests', 'Questions'],
+    choices: ['Installation', 'Usage', 'License', 'Contribution-Guidelines', 'Contributors', 'Tests', 'Questions'],
     },
     {
     type: "input",
@@ -56,63 +61,92 @@ const questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(data) {
-    console.log(data);
-    //Takes contributors and splits them
-    let gitCont = data.contributing.split(',');
-    let gitUser = [];
-    gitCont.map(user => gitUser.push(user.trim()));
-    let gitStr = '';
-    gitUser.map(user => {
-        gitStr += `[${user}]('https://github.com/${user}') \n`
-    })
-    
-    let content = '';
+console.log(data);
+//Takes contributors and splits them
+let gitCont = data.contributing.split(',');
+let gitUser = [];
+gitCont.map(user => gitUser.push(user.trim()));
+let gitStr = '';
+gitUser.map(user => {
+gitStr += `[${user}](https://github.com/${user}) \n`
+})
 
-    console.log(content);
-    console.log(gitCont);
+let mail = `[${data.email}](mailto:${data.email})`
 
-    //Code to take input info and put it in the template readme
-    const generateRead = (data) =>
-    `
-    # ${data.title}
-    ${data.license}
+let content = '';
 
-    ## Description
+data.contents.map(info => {
+    content += `* [${info}](#${info.toLowerCase()}) \n \n`
+})
 
-    ${data.description}
+let license = data.license === 'MIT' ? "![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)" :
+data.license === 'GNU' ? "![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)" :
+"![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)" 
 
-    ## Table of Contents
+// console.log(content);
+// console.log(gitCont);
 
-    ${content}
+//Code to take input info and put it in the template readme
+let readTemp =
+`# ${data.title}
+${license}
 
-    ## Installation
-    To install dependencies, run the following command(s):
+## Description
 
-    ${data.instructions}
+${data.description}
 
-    ## Usage
+## Table of Contents
 
-    ${data.usage}
+${content}
 
-    ## License
+## Installation
+To install dependencies, run the following command(s):
 
-    This project uses the ${data.license} license.
+${data.instructions}
 
-    ## Contributing
+## Usage
 
-    ${gitStr}
-    `
+${data.usage}
 
+## License
+
+This project is licensed under the terms of the ${data.license} license.
+
+## Contribution-Guidelines
+
+If you wish to contribute. Please refer to the following guidelines:
+[Contributor Covenant](https://www.contributor-covenant.org/)
+
+## Contributors
+
+${gitStr}
+
+## Tests
+
+To test the application, please do the following:
+${data.tests}
+
+## Questions
+
+If you have any questions regarding the repo, application, or issues you are experiencing, please email
+the following:
+${mail}
+`
+fs.writeFile(`${data.title}.md`, readTemp, (err) => 
+err ? console.log(err) : console.log("Success!"));
 
 }
+
+
+// const writeFileAsync = util.promisify(fs.writeFile);
 
 // TODO: Create a function to initialize app
 function init() {
     inquirer
         .prompt(questions)
-        .then((data) => {
-            console.log(data);
-        })
+        // .then((data) => writeFileAsync(`${data.title}.md`, writeToFile(data)))
+        .then((data) => writeToFile(data))
+        .catch((err) => console.error(err));
 }
 // Function call to initialize app
 init();
