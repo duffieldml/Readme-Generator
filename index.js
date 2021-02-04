@@ -71,14 +71,17 @@ gitUser.map(user => {
 gitStr += `[${user}](https://github.com/${user}) \n`
 })
 
+//creates a clickable link for email
 let mail = `[${data.email}](mailto:${data.email})`
 
 let content = '';
 
+//this creates the table of contents area
 data.contents.map(info => {
-    content += `* [${info}](#${info.toLowerCase()}) \n \n`
+    content += `* [${info}](#${info.toLowerCase()}) \n`
 })
 
+//area for deciding what license was picked
 let license = data.license === 'MIT' ? "![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)" :
 data.license === 'GNU' ? "![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)" :
 "![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)" 
