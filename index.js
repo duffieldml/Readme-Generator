@@ -50,7 +50,7 @@ const questions = [
     {
     type: "input",
     name: "contributing",
-    message: "Who is contributing? List all contributors' github name. Please seperate multiple entries by commas.",
+    message: "Who else is contributing(besides yourself)? List all contributors' github name. Please seperate multiple entries by commas.",
     },
     {
     type: "input",
@@ -64,8 +64,10 @@ function writeToFile(data) {
 console.log(data);
 //Takes contributors and splits them
 let gitCont = data.contributing.split(',');
+// let mainGit = `[${data.username}](https://github.com/${data.username}) \n`;
 let gitUser = [];
 gitCont.map(user => gitUser.push(user.trim()));
+// mainGit.map(user => gitUser.push(user.trim()));
 let gitStr = '';
 gitUser.map(user => {
 gitStr += `[${user}](https://github.com/${user}) \n`
@@ -78,7 +80,7 @@ let content = '';
 
 //this creates the table of contents area
 data.contents.map(info => {
-    content += `* [${info}](#${info.toLowerCase()}) \n`
+    content += `* [${info}](#${info.toLowerCase()}) \n \n`
 })
 
 //area for deciding what license was picked
@@ -101,7 +103,6 @@ ${data.description}
 ## Table of Contents
 
 ${content}
-
 ## Installation
 To install dependencies, run the following command(s):
 
@@ -122,6 +123,7 @@ If you wish to contribute. Please refer to the following guidelines:
 
 ## Contributors
 
+[${data.username}](https://github.com/${data.username})
 ${gitStr}
 
 ## Tests
