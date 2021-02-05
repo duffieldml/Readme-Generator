@@ -1,6 +1,10 @@
 # readme
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+## Video of Application
+
+[Video to show functionality](https://drive.google.com/file/d/1wStygdQPE9jrWjKrU2SwMOmvHZnIjbPC/view?usp=sharing)
+
 ## Description
 
 This project is designed to deliver a professional quality README for any project. It has been automated to decrease the amount of time you spend making READMEs. This program uses node.js along with inquirer and fs.
